@@ -11,6 +11,10 @@ require('./test');
 console.log('\n🧪 Запускаем тестовую версию CLI...');
 require('./test_cli');
 
+// Запускаем тест сервисов
+console.log('\n🔧 Запускаем тест сервисов...');
+require('./test_services');
+
 const express = require('express');
 const cron = require('node-cron');
 const { exec } = require('child_process');
