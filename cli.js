@@ -2,6 +2,7 @@
 /* eslint-disable */
 
 require('dotenv').config();
+require('./polyfills'); // Загружаем полифиллы
 const Mercury = require('./dist/mercury');
 const axios = require('axios');
 const { createClient } = require('@supabase/supabase-js');

@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 require('dotenv').config();
+require('./polyfills'); // Загружаем полифиллы
 const express = require('express');
 const cron = require('node-cron');
 const { exec } = require('child_process');
