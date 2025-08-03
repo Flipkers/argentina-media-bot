@@ -24,7 +24,7 @@ async function debugParsingIssues() {
     const { data: emptyContentArticles, error } = await supabase
       .from('articles')
       .select('*')
-      .or('content.is.null,content.eq.')
+      .or('mercury_content.is.null,mercury_content.eq.')
       .limit(5);
     
     if (error) {
@@ -44,8 +44,8 @@ async function debugParsingIssues() {
       const article = emptyContentArticles[i];
       console.log(`\n📝 [${i + 1}/${emptyContentArticles.length}] Анализируем: "${article.title}"`);
       console.log('🔗 Ссылка:', article.link);
-      console.log('📄 Контент:', article.content ? `"${article.content.substring(0, 100)}..."` : 'NULL');
-      console.log('📄 Длина контента:', article.content ? article.content.length : 0);
+      console.log('📄 Mercury контент:', article.mercury_content ? `"${article.mercury_content.substring(0, 100)}..."` : 'NULL');
+      console.log('📄 Длина mercury контента:', article.mercury_content ? article.mercury_content.length : 0);
       
       // Пробуем перепарсить статью
       console.log('🔄 Пробуем перепарсить...');
@@ -103,15 +103,15 @@ async function checkContentStatistics() {
     const { count: articlesWithContent } = await supabase
       .from('articles')
       .select('*', { count: 'exact', head: true })
-      .not('content', 'is', null)
-      .not('content', 'eq', '');
+      .not('mercury_content', 'is', null)
+      .not('mercury_content', 'eq', '');
     
     const { count: articlesWithLongContent } = await supabase
       .from('articles')
       .select('*', { count: 'exact', head: true })
-      .not('content', 'is', null)
-      .not('content', 'eq', '')
-      .gte('content.length', 100);
+      .not('mercury_content', 'is', null)
+      .not('mercury_content', 'eq', '')
+      .gte('mercury_content.length', 100);
     
     console.log(`📰 Всего статей: ${totalArticles}`);
     console.log(`📄 С контентом: ${articlesWithContent}`);

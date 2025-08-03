@@ -34,8 +34,8 @@ async function analyzeUnprocessedArticles() {
       .from('articles')
       .select('*')
       .is('openai_score', null)
-      .not('content', 'is', null)
-      .not('content', 'eq', '')
+      .not('mercury_content', 'is', null)
+      .not('mercury_content', 'eq', '')
       .limit(10);
     
     if (error) {
@@ -59,16 +59,16 @@ async function analyzeUnprocessedArticles() {
       
       try {
         // Проверяем контент
-        console.log('📄 Текущий контент:', article.content ? `"${article.content.substring(0, 100)}..."` : 'NULL');
-        console.log('📄 Длина контента:', article.content ? article.content.length : 0);
+        console.log('📄 Текущий контент:', article.mercury_content ? `"${article.mercury_content.substring(0, 100)}..."` : 'NULL');
+        console.log('📄 Длина контента:', article.mercury_content ? article.mercury_content.length : 0);
         
-        if (!article.content || article.content.trim().length < 50) {
+        if (!article.mercury_content || article.mercury_content.trim().length < 50) {
           console.log('⚠️ Недостаточно контента, пропускаем');
           continue;
         }
         
         // Формируем промпт
-        const prompt = getOpenAIPrompt(article.title, article.content, article.link);
+        const prompt = getOpenAIPrompt(article.title, article.mercury_content, article.link);
         
         // Отправляем запрос к OpenAI
         console.log('📡 Отправляем запрос к OpenAI...');
