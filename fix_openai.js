@@ -59,6 +59,9 @@ async function analyzeUnprocessedArticles() {
       
       try {
         // Проверяем контент
+        console.log('📄 Текущий контент:', article.content ? `"${article.content.substring(0, 100)}..."` : 'NULL');
+        console.log('📄 Длина контента:', article.content ? article.content.length : 0);
+        
         if (!article.content || article.content.trim().length < 50) {
           console.log('⚠️ Недостаточно контента, пропускаем');
           continue;
