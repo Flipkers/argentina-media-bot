@@ -12,6 +12,18 @@ try {
   console.log('❌ Ошибка загрузки полифиллов:', e.message);
 }
 
+// Тест Blob API
+console.log('\n=== ТЕСТ BLOB API ===');
+try {
+  if (typeof globalThis.Blob !== 'undefined') {
+    console.log('✅ Blob API доступен');
+  } else {
+    console.log('❌ Blob API недоступен');
+  }
+} catch (e) {
+  console.log('❌ Ошибка проверки Blob API:', e.message);
+}
+
 // Тест File API
 console.log('\n=== ТЕСТ FILE API ===');
 try {

@@ -5,13 +5,40 @@ try {
   console.log('⚠️ web-streams-polyfill не загружен:', e.message);
 }
 
+// Полифилл для Blob API
+if (typeof globalThis.Blob === 'undefined') {
+  globalThis.Blob = class Blob {
+    constructor(parts = [], options = {}) {
+      this.parts = parts;
+      this.type = options.type || '';
+      this.size = parts.reduce((size, part) => {
+        if (typeof part === 'string') {
+          return size + part.length;
+        }
+        if (part instanceof ArrayBuffer) {
+          return size + part.byteLength;
+        }
+        return size;
+      }, 0);
+    }
+    
+    arrayBuffer() {
+      return Promise.resolve(new ArrayBuffer(this.size));
+    }
+    
+    text() {
+      return Promise.resolve(this.parts.join(''));
+    }
+  };
+  console.log('✅ Blob API полифилл загружен');
+}
+
 // Полифилл для File API
 if (typeof globalThis.File === 'undefined') {
-  globalThis.File = class File {
+  globalThis.File = class File extends globalThis.Blob {
     constructor(bits, name, options = {}) {
+      super(bits, options);
       this.name = name;
-      this.size = bits.length;
-      this.type = options.type || '';
       this.lastModified = options.lastModified || Date.now();
     }
   };
