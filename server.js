@@ -47,6 +47,14 @@ require('./test_content');
 console.log('\n🔍 Запускаем проверку схемы...');
 require('./check_schema');
 
+// Запускаем детальную диагностику облака
+console.log('\n🔍 Запускаем детальную диагностику облака...');
+require('./debug_cloud');
+
+// Запускаем упрощенное исправление OpenAI
+console.log('\n🔧 Запускаем упрощенное исправление OpenAI...');
+require('./fix_openai_simple');
+
 const express = require('express');
 const cron = require('node-cron');
 const { exec } = require('child_process');
