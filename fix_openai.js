@@ -90,12 +90,12 @@ async function analyzeUnprocessedArticles() {
           
           // Обновляем статью в базе (только существующие поля)
           const updateData = {
-            openai_category: analysis.category,
-            openai_score: analysis.score,
-            openai_should_post: analysis.should_post,
-            openai_post_title: analysis.post_title,
-            openai_post_content: analysis.post_content,
-            openai_translation: analysis.translation
+            openai_category: { category: analysis.category },
+            openai_score: analysis.score, // Сохраняем как число
+            openai_should_post: analysis.should_post, // Сохраняем как boolean
+            openai_post_title: { title: analysis.post_title },
+            openai_post_content: { content: analysis.post_content },
+            openai_translation: { translation: analysis.translation }
           };
           
           console.log('📦 Данные для обновления:', updateData);

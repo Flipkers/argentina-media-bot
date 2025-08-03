@@ -28,6 +28,32 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
+// Функция для извлечения значений из JSON полей
+function extractValue(field) {
+  if (!field) return null;
+  if (typeof field === 'object' && field !== null) {
+    // Если это объект, извлекаем первое значение
+    const keys = Object.keys(field);
+    if (keys.length > 0) {
+      return field[keys[0]];
+    }
+  }
+  return field;
+}
+
+// Функция для извлечения значений из смешанных полей (числа, boolean, JSON)
+function extractFieldValue(field) {
+  if (field === null || field === undefined) return null;
+  if (typeof field === 'number' || typeof field === 'boolean') return field;
+  if (typeof field === 'object') {
+    const keys = Object.keys(field);
+    if (keys.length > 0) {
+      return field[keys[0]];
+    }
+  }
+  return field;
+}
+
 // Функция для проверки подключения к Supabase
 async function testSupabaseConnection() {
   try {
@@ -627,7 +653,7 @@ async function sendStatsToTelegram() {
     const stats = {
       totalArticles: articles.length,
       analyzedArticles: articles.filter(a => a.openai_processed_at).length,
-      interestingArticles: articles.filter(a => a.openai_score >= 6).length,
+              interestingArticles: articles.filter(a => extractFieldValue(a.openai_score) >= 6).length,
       publishedPosts: articles.filter(a => a.telegram_published_at).length
     };
     
@@ -1015,7 +1041,7 @@ async function getNewsData(params = {}) {
       
       // Публикуем все интересные статьи из текущего цикла
       const interestingArticlesFromCycle = analyzedArticles.filter(a => 
-        a.openai_should_post && a.openai_score >= 6
+        extractFieldValue(a.openai_should_post) && extractFieldValue(a.openai_score) >= 6
       );
       
       let publishedArticles = [];
@@ -1041,7 +1067,7 @@ async function getNewsData(params = {}) {
       console.log(`   • Источники: ${[...new Set(newsData.results.map(a => a.source_name))].join(', ')}`);
       
       // Показываем самые интересные статьи
-      const interestingArticles = analyzedArticles.filter(a => a.openai_score >= 6);
+      const interestingArticles = analyzedArticles.filter(a => extractFieldValue(a.openai_score) >= 6);
       if (interestingArticles.length > 0) {
         console.log(`\n⭐ Самые интересные статьи (оценка 6+):`);
         interestingArticles

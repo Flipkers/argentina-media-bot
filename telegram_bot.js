@@ -98,10 +98,22 @@ class TelegramBot {
     }
   }
 
+  // Функция для извлечения значений из JSON полей
+  extractValue(field) {
+    if (!field) return null;
+    if (typeof field === 'object' && field !== null) {
+      const keys = Object.keys(field);
+      if (keys.length > 0) {
+        return field[keys[0]];
+      }
+    }
+    return field;
+  }
+
   // Форматирование сообщения для Telegram
   formatPostMessage(article) {
-    const title = article.openai_post_title;
-    const content = article.openai_post_content;
+    const title = this.extractValue(article.openai_post_title);
+    const content = this.extractValue(article.openai_post_content);
     const source = article.source_name || 'Источник';
     const link = article.link;
     

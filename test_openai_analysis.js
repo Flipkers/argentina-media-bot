@@ -53,13 +53,15 @@ async function testOpenAIAnalysis() {
     console.log(`\n📝 Анализируем статью: "${article.title}"`);
     
     // Проверяем, есть ли контент для анализа
-    if (!article.content || article.content.trim().length < 50) {
+    const content = article.mercury_content || article.description || article.content || 'Контент недоступен';
+    if (!content || content.trim().length < 50) {
       console.log('⚠️ Статья не имеет достаточного контента для анализа');
+      console.log('📄 Доступный контент:', content ? content.substring(0, 100) : 'NULL');
       return;
     }
     
     // Формируем промпт
-    const prompt = getOpenAIPrompt(article.title, article.content, article.link);
+    const prompt = getOpenAIPrompt(article.title, content, article.link);
     console.log('📄 Промпт сформирован, длина:', prompt.length, 'символов');
     
     // Отправляем запрос к OpenAI
@@ -90,13 +92,12 @@ async function testOpenAIAnalysis() {
       const { error: updateError } = await supabase
         .from('articles')
         .update({
-          openai_category: analysis.category,
+          openai_category: { category: analysis.category },
           openai_score: analysis.score,
           openai_should_post: analysis.should_post,
-          openai_post_title: analysis.post_title,
-          openai_post_content: analysis.post_content,
-          openai_translation: analysis.translation,
-          openai_analyzed_at: new Date().toISOString()
+          openai_post_title: { title: analysis.post_title },
+          openai_post_content: { content: analysis.post_content },
+          openai_translation: { translation: analysis.translation }
         })
         .eq('id', article.id);
       
