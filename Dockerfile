@@ -5,8 +5,8 @@ WORKDIR /app
 # Копируем package.json и package-lock.json
 COPY package*.json ./
 
-# Устанавливаем зависимости с npm install
-RUN npm install --legacy-peer-deps
+# Удаляем package-lock.json если он есть и устанавливаем зависимости заново
+RUN rm -f package-lock.json && npm install --legacy-peer-deps
 
 # Копируем остальные файлы
 COPY . .
