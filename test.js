@@ -12,6 +12,18 @@ try {
   console.log('❌ Ошибка загрузки полифиллов:', e.message);
 }
 
+// Тест DOMException
+console.log('\n=== ТЕСТ DOMEXCEPTION ===');
+try {
+  if (typeof globalThis.DOMException !== 'undefined') {
+    console.log('✅ DOMException доступен');
+  } else {
+    console.log('❌ DOMException недоступен');
+  }
+} catch (e) {
+  console.log('❌ Ошибка проверки DOMException:', e.message);
+}
+
 // Тест Blob API
 console.log('\n=== ТЕСТ BLOB API ===');
 try {

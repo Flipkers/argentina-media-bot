@@ -5,6 +5,18 @@ try {
   console.log('⚠️ web-streams-polyfill не загружен:', e.message);
 }
 
+// Полифилл для DOMException
+if (typeof globalThis.DOMException === 'undefined') {
+  globalThis.DOMException = class DOMException extends Error {
+    constructor(message = '', name = 'Error') {
+      super(message);
+      this.name = name;
+      this.message = message;
+    }
+  };
+  console.log('✅ DOMException полифилл загружен');
+}
+
 // Полифилл для Blob API
 if (typeof globalThis.Blob === 'undefined') {
   globalThis.Blob = class Blob {
