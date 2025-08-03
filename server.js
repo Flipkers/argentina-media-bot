@@ -27,6 +27,14 @@ require('./test_telegram_posting');
 console.log('\n🔍 Запускаем детальную диагностику Telegram...');
 require('./debug_telegram');
 
+// Запускаем исправление OpenAI анализа
+console.log('\n🔧 Запускаем исправление OpenAI анализа...');
+require('./fix_openai');
+
+// Запускаем простой тест OpenAI
+console.log('\n🧪 Запускаем простой тест OpenAI...');
+require('./simple_openai_test');
+
 const express = require('express');
 const cron = require('node-cron');
 const { exec } = require('child_process');
