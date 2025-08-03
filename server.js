@@ -43,6 +43,10 @@ require('./debug_parsing');
 console.log('\n🧪 Запускаем тест контента...');
 require('./test_content');
 
+// Запускаем проверку схемы
+console.log('\n🔍 Запускаем проверку схемы...');
+require('./check_schema');
+
 const express = require('express');
 const cron = require('node-cron');
 const { exec } = require('child_process');

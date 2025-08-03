@@ -88,18 +88,21 @@ async function analyzeUnprocessedArticles() {
           console.log('✅ JSON успешно распарсен');
           console.log('📊 Результат: категория =', analysis.category, ', оценка =', analysis.score);
           
-          // Обновляем статью в базе
+          // Обновляем статью в базе (только существующие поля)
+          const updateData = {
+            openai_category: analysis.category,
+            openai_score: analysis.score,
+            openai_should_post: analysis.should_post,
+            openai_post_title: analysis.post_title,
+            openai_post_content: analysis.post_content,
+            openai_translation: analysis.translation
+          };
+          
+          console.log('📦 Данные для обновления:', updateData);
+          
           const { error: updateError } = await supabase
             .from('articles')
-            .update({
-              openai_category: analysis.category,
-              openai_score: analysis.score,
-              openai_should_post: analysis.should_post,
-              openai_post_title: analysis.post_title,
-              openai_post_content: analysis.post_content,
-              openai_translation: analysis.translation,
-              openai_analyzed_at: new Date().toISOString()
-            })
+            .update(updateData)
             .eq('id', article.id);
           
           if (updateError) {

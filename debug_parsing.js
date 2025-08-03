@@ -56,19 +56,20 @@ async function debugParsingIssues() {
         console.log('📄 Новый контент:', parsed.content ? `"${parsed.content.substring(0, 100)}..."` : 'NULL');
         console.log('📄 Длина нового контента:', parsed.content ? parsed.content.length : 0);
         
-        // Обновляем статью в базе
-        if (parsed.content && parsed.content.length > 50) {
-          console.log('💾 Обновляем статью в базе...');
-          const { error: updateError } = await supabase
-            .from('articles')
-            .update({
-              content: parsed.content,
-              title: parsed.title,
-              excerpt: parsed.excerpt,
-              lead_image_url: parsed.lead_image_url,
-              mercury_parsed_at: new Date().toISOString()
-            })
-            .eq('id', article.id);
+                  // Обновляем статью в базе (только существующие поля)
+          if (parsed.content && parsed.content.length > 50) {
+            console.log('💾 Обновляем статью в базе...');
+            const updateData = {
+              mercury_content: parsed.content,
+              title: parsed.title
+            };
+            
+            console.log('📦 Данные для обновления:', updateData);
+            
+            const { error: updateError } = await supabase
+              .from('articles')
+              .update(updateData)
+              .eq('id', article.id);
           
           if (updateError) {
             console.log('❌ Ошибка обновления:', updateError.message);
