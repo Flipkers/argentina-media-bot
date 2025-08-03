@@ -86,10 +86,10 @@ class TelegramBot {
       const success = await this.sendMessage(message);
       
       if (success) {
-        console.log(`📤 Пост опубликован: ${article.openai_post_title}`);
+        console.log(`📤 Пост опубликован: ${this.extractValue(article.openai_post_title)}`);
         return true;
       } else {
-        console.error(`❌ Не удалось опубликовать пост: ${article.openai_post_title}`);
+        console.error(`❌ Не удалось опубликовать пост: ${this.extractValue(article.openai_post_title)}`);
         return false;
       }
     } catch (error) {
