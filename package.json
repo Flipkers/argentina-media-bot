@@ -33,7 +33,7 @@
     "request": "^2.88.2",
     "string-direction": "^0.1.2",
     "turndown": "^7.2.0",
-    "undici": "^7.13.0",
+    "undici": "^4.16.0",
     "valid-url": "^1.0.9",
     "web-streams-polyfill": "^4.1.0",
     "wuzzy": "^0.1.8",

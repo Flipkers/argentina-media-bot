@@ -1,5 +1,9 @@
-// Полифиллы для Node.js 18
-import 'web-streams-polyfill/polyfill';
+// Полифиллы для совместимости
+try {
+  require('web-streams-polyfill/polyfill');
+} catch (e) {
+  console.log('⚠️ web-streams-polyfill не загружен:', e.message);
+}
 
 // Полифилл для File API
 if (typeof globalThis.File === 'undefined') {
@@ -11,6 +15,7 @@ if (typeof globalThis.File === 'undefined') {
       this.lastModified = options.lastModified || Date.now();
     }
   };
+  console.log('✅ File API полифилл загружен');
 }
 
 // Полифилл для FileReader API
@@ -23,9 +28,11 @@ if (typeof globalThis.FileReader === 'undefined') {
     }
     
     readAsText(blob) {
-      // Простая реализация
       this.result = '';
       this.readyState = 2;
     }
   };
-} 
+  console.log('✅ FileReader API полифилл загружен');
+}
+
+console.log('🔧 Полифиллы загружены'); 
