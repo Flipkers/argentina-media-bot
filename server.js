@@ -78,6 +78,22 @@ cron.schedule('*/5 * * * *', async () => {
 
 // API endpoints
 
+// Простой тестовый endpoint без аутентификации
+app.get('/test', (req, res) => {
+  res.json({
+    status: 'ok',
+    message: 'Argentina Media Bot работает!',
+    timestamp: new Date().toISOString(),
+    environment: process.env.NODE_ENV || 'development',
+    hasEnvVars: {
+      newsdata: !!process.env.NEWSDATA_API_KEY,
+      supabase: !!process.env.SUPABASE_URL,
+      openai: !!process.env.OPENAI_API_KEY,
+      telegram: !!process.env.TELEGRAM_BOT_TOKEN
+    }
+  });
+});
+
 // Главная страница
 app.get('/', (req, res) => {
   res.send(`
