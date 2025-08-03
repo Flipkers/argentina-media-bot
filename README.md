@@ -1,93 +1,150 @@
-![Mercury Parser](https://13c27d41k2ud2vkddp226w55-wpengine.netdna-ssl.com/wp-content/uploads/2018/02/7bacd-16qwcaegges3hkrw70doz4w.png)
+# Argentina Media Bot 🤖
 
-# Mercury Parser - Extracting content from chaos
+Автоматизированная система сбора, анализа и публикации новостей из аргентинских СМИ.
 
-[![CircleCI](https://circleci.com/gh/postlight/mercury-parser.svg?style=svg&circle-token=3026c2b527d3767750e767872d08991aeb4f8f10)](https://circleci.com/gh/postlight/mercury-parser) [![Greenkeeper badge](https://badges.greenkeeper.io/postlight/mercury-parser.svg)](https://greenkeeper.io/) [![Apache License][license-apach-badge]][license-apach] [![MITC License][license-mit-badge]][license-mit]
-[![Gitter chat](https://badges.gitter.im/postlight/mercury.png)](https://gitter.im/postlight/mercury)
+## 🚀 Возможности
 
-[license-apach-badge]: https://img.shields.io/badge/License-Apache%202.0-blue.svg?style=flat-square
-[license-apach]: https://github.com/postlight/mercury-parser/blob/master/LICENSE-APACHE
-[license-mit-badge]: https://img.shields.io/badge/License-MIT%202.0-blue.svg?style=flat-square
-[license-mit]: https://github.com/postlight/mercury-parser/blob/master/LICENSE-MIT
+- 📡 **Автоматический сбор новостей** из аргентинских источников через newsdata.io API
+- 🔍 **Извлечение содержимого** статей с помощью Mercury Parser
+- 🤖 **AI-анализ** статей через OpenAI GPT для определения интереса и категоризации
+- 💾 **Сохранение данных** в Supabase PostgreSQL базу данных
+- 📤 **Автоматическая публикация** интересных статей в Telegram канал
+- ⏰ **Планировщик задач** с запуском каждые 5 минут
 
-The Mercury Parser extracts the bits that humans care about from any URL you give it. That includes article content, titles, authors, published dates, excerpts, lead images, and more.
+## 🛠 Технологии
 
-Mercury Parser powers the [Mercury AMP Converter](https://mercury.postlight.com/amp-converter/) and [Mercury Reader](https://mercury.postlight.com/reader/), a Chrome extension that removes ads and distractions, leaving only text and images for a beautiful reading view on any site.
+- **Node.js** - серверная платформа
+- **Express.js** - веб-фреймворк
+- **node-cron** - планировщик задач
+- **OpenAI API** - AI-анализ контента
+- **Supabase** - база данных PostgreSQL
+- **Telegram Bot API** - публикация в канал
+- **Mercury Parser** - извлечение содержимого статей
 
-Mercury Parser allows you to easily create custom parsers using simple JavaScript and CSS selectors. This allows you to proactively manage parsing and migration edge cases. There are [many examples available](https://github.com/postlight/mercury-parser/tree/master/src/extractors/custom) along with [documentation](https://github.com/postlight/mercury-parser/blob/master/src/extractors/custom/README.md).
+## 📋 Требования
 
-## How? Like this.
+- Node.js >= 16.0.0
+- API ключи для:
+  - newsdata.io
+  - OpenAI
+  - Supabase
+  - Telegram Bot
 
-### Installation
+## 🔧 Установка
 
+1. Клонируйте репозиторий:
 ```bash
-# If you're using yarn
-yarn add @postlight/mercury-parser
-
-# If you're using npm
-npm install @postlight/mercury-parser
+git clone <repository-url>
+cd argentina-media-bot
 ```
 
-### Usage
-
-```javascript
-import Mercury from '@postlight/mercury-parser';
-
-Mercury.parse(url).then(result => console.log(result));
-
-// NOTE: When used in the browser, you can omit the URL argument
-// and simply run `Mercury.parse()` to parse the current page.
-```
-
-The result looks like this:
-
-```json
-{
-  "title": "Thunder (mascot)",
-  "content": "<div><div><p>This is the content of the page!</div></div>",
-  "author": "Wikipedia Contributors",
-  "date_published": "2016-09-16T20:56:00.000Z",
-  "lead_image_url": null,
-  "dek": null,
-  "next_page_url": null,
-  "url": "https://en.wikipedia.org/wiki/Thunder_(mascot)",
-  "domain": "en.wikipedia.org",
-  "excerpt": "Thunder Thunder is the stage name for the horse who is the official live animal mascot for the Denver Broncos",
-  "word_count": 4677,
-  "direction": "ltr",
-  "total_pages": 1,
-  "rendered_pages": 1
-}
-```
-
-If Mercury is unable to find a field, that field will return `null`.
-
-Mercury Parser also ships with a CLI, meaning you can use the Mercury Parser
-from your command line like so:
-
-![Mercury Parser CLI Basic Usage](./assets/mercury-basic-usage.gif)
-
+2. Установите зависимости:
 ```bash
-# Install Mercury globally
-yarn global add @postlight/mercury-parser
-#   or
-npm -g install @postlight/mercury-parser
-
-# Then
-mercury-parser https://postlight.com/trackchanges/mercury-goes-open-source
+npm install
 ```
 
-## License
+3. Создайте файл `.env` с вашими API ключами:
+```env
+NEWSDATA_API_KEY=your_newsdata_api_key
+SUPABASE_URL=your_supabase_url
+SUPABASE_SERVICE_KEY=your_supabase_service_key
+OPENAI_API_KEY=your_openai_api_key
+TELEGRAM_BOT_TOKEN=your_telegram_bot_token
+TELEGRAM_CHANNEL_ID=your_telegram_channel_id
+```
 
-Licensed under either of the below, at your preference:
+4. Настройте базу данных Supabase (выполните SQL скрипты):
+   - `create_articles_table.sql`
+   - `add_openai_fields.sql`
+   - `add_telegram_fields.sql`
 
-- Apache License, Version 2.0
-  ([LICENSE-APACHE](LICENSE-APACHE) or http://www.apache.org/licenses/LICENSE-2.0)
-- MIT license
-  ([LICENSE-MIT](LICENSE-MIT) or http://opensource.org/licenses/MIT)
+## 🚀 Запуск
 
-## Contributing
+### Локальный запуск
+```bash
+npm start
+```
 
-For details on how to contribute to Mercury, including how to write a custom content extractor for any site, see [CONTRIBUTING.md](./CONTRIBUTING.md)
+### Разработка
+```bash
+npm run dev
+```
 
-Unless it is explicitly stated otherwise, any contribution intentionally submitted for inclusion in the work, as defined in the Apache-2.0 license, shall be dual licensed as above without any additional terms or conditions.
+### CLI команды
+```bash
+# Полный цикл
+npm run full-cycle
+
+# Только новости
+npm run news
+
+# Только анализ OpenAI
+npm run analyze
+
+# Только публикация
+npm run publish
+
+# Тест Telegram
+npm test
+```
+
+## ☁️ Деплой
+
+### Railway
+1. Подключите GitHub репозиторий к Railway
+2. Добавьте переменные окружения
+3. Деплой автоматический
+
+### Render
+1. Подключите GitHub репозиторий к Render
+2. Добавьте переменные окружения
+3. Деплой автоматический
+
+### Vercel
+1. Подключите GitHub репозиторий к Vercel
+2. Добавьте переменные окружения
+3. Деплой автоматический
+
+## 📊 Структура проекта
+
+```
+├── cli.js                 # Основной CLI интерфейс
+├── server.js              # Express сервер с планировщиком
+├── telegram_bot.js        # Telegram Bot API интеграция
+├── openai_prompt.js       # Промпты для OpenAI
+├── package.json           # Зависимости и скрипты
+├── railway.json           # Конфигурация Railway
+├── vercel.json            # Конфигурация Vercel
+├── render.yaml            # Конфигурация Render
+└── *.sql                  # SQL скрипты для базы данных
+```
+
+## 🔄 Рабочий цикл
+
+1. **Сбор новостей** - получение статей из newsdata.io API
+2. **Парсинг** - извлечение содержимого через Mercury Parser
+3. **Сохранение** - запись в Supabase базу данных
+4. **AI-анализ** - оценка и категоризация через OpenAI
+5. **Публикация** - отправка интересных статей в Telegram
+
+## 📈 Мониторинг
+
+- Веб-интерфейс: `http://localhost:3000`
+- Статус: `/api/status`
+- Здоровье: `/health`
+- Ручной запуск: `/api/run`
+
+## 🤝 Вклад в проект
+
+1. Форкните репозиторий
+2. Создайте ветку для новой функции
+3. Внесите изменения
+4. Создайте Pull Request
+
+## 📄 Лицензия
+
+MIT License
+
+## 📞 Поддержка
+
+По вопросам и предложениям создавайте Issues в GitHub.
