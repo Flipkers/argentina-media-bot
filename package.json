@@ -17,13 +17,25 @@
     "node": ">=16.0.0"
   },
   "dependencies": {
-    "dotenv": "^17.2.1",
-    "axios": "^1.6.0",
+    "@babel/runtime-corejs2": "^7.28.2",
     "@supabase/supabase-js": "^2.38.0",
-    "openai": "^4.20.0",
-    "yargs-parser": "^21.0.1",
+    "axios": "^1.6.0",
+    "cheerio": "^1.1.2",
+    "difflib": "^0.2.4",
+    "dotenv": "^17.2.1",
+    "ellipsize": "^0.6.1",
     "express": "^4.18.2",
-    "node-cron": "^3.0.3"
+    "iconv-lite": "^0.6.3",
+    "moment-parseformat": "^4.0.0",
+    "moment-timezone": "^0.6.0",
+    "node-cron": "^3.0.3",
+    "openai": "^4.20.0",
+    "request": "^2.88.2",
+    "string-direction": "^0.1.2",
+    "turndown": "^7.2.0",
+    "valid-url": "^1.0.9",
+    "wuzzy": "^0.1.8",
+    "yargs-parser": "^21.0.1"
   },
   "devDependencies": {
     "nodemon": "^3.0.2"
