@@ -63,8 +63,7 @@ async function testSupabaseConnection() {
     
     const { data, error } = await supabase
       .from('articles')
-      .select('count')
-      .limit(1);
+      .select('*', { count: 'exact', head: true });
     
     if (error) {
       console.log('📋 Таблица articles не существует:', error.message);
