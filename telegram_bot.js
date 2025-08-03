@@ -14,6 +14,12 @@ class TelegramBot {
     if (!this.channelId && !this.chatId) {
       console.error('❌ TELEGRAM_CHANNEL_ID или TELEGRAM_CHAT_ID не найдены в переменных окружения');
     }
+    
+    // Логируем настройки для отладки
+    console.log('🔧 Telegram Bot настройки:');
+    console.log('  - Bot Token:', this.botToken ? '✅ Найден' : '❌ Не найден');
+    console.log('  - Channel ID:', this.channelId || '❌ Не найден');
+    console.log('  - Chat ID:', this.chatId || '❌ Не найден');
   }
 
   // Отправка сообщения в канал или чат
@@ -30,6 +36,9 @@ class TelegramBot {
         return false;
       }
 
+      console.log(`📤 Отправляем сообщение в: ${targetId}`);
+      console.log(`📄 Длина сообщения: ${message.length} символов`);
+
       const url = `https://api.telegram.org/bot${this.botToken}/sendMessage`;
       
       const payload = {
@@ -39,6 +48,9 @@ class TelegramBot {
         disable_web_page_preview: false,
         ...options
       };
+
+      console.log('📡 URL:', url);
+      console.log('📦 Payload chat_id:', payload.chat_id);
 
       const response = await axios.post(url, payload);
       
@@ -51,6 +63,10 @@ class TelegramBot {
       }
     } catch (error) {
       console.error('❌ Ошибка при отправке в Telegram:', error.message);
+      if (error.response) {
+        console.error('📊 Статус:', error.response.status);
+        console.error('📄 Данные:', error.response.data);
+      }
       return false;
     }
   }
