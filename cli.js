@@ -492,13 +492,27 @@ async function publishPostsToTelegram(count = 5) {
     }
     
     // Получаем готовые посты из базы данных
-    const { data: articles, error } = await supabase
+    console.log('🔍 Ищем статьи для публикации...');
+    console.log('📡 Отправляем запрос к базе данных...');
+    const { data: allArticles, error } = await supabase
       .from('articles')
-      .select('*')
-      .eq('openai_should_post', true)
-      .is('telegram_published_at', null) // Только неопубликованные
-      .order('openai_score', { ascending: false })
-      .limit(count);
+      .select('id, title, openai_should_post, openai_score, telegram_published_at')
+      .limit(10);
+    console.log('📡 Запрос завершен');
+    
+    if (error) {
+      console.error('❌ Ошибка при получении статей:', error);
+      return [];
+    }
+    
+    // Фильтруем статьи в коде
+    const articles = allArticles?.filter(article => 
+      !article.telegram_published_at && 
+      article.openai_should_post && 
+      article.openai_score >= 6
+    ).slice(0, count) || [];
+    
+    console.log('📊 Результат запроса:', { articles: articles?.length || 0, error: error?.message || 'нет' });
     
     if (error) {
       console.error('❌ Ошибка при получении статей:', error);
@@ -534,7 +548,7 @@ async function publishPostsToTelegram(count = 5) {
           } else {
             publishedCount++;
             publishedArticles.push(article);
-            console.log(`✅ Пост опубликован: ${article.openai_post_title}`);
+            console.log(`✅ Пост опубликован: ${extractValue(article.openai_post_title)}`);
           }
           
           // Пауза между публикациями (чтобы не спамить)

@@ -214,7 +214,12 @@ async function publishToTelegram(articles) {
   let publishedCount = 0;
   
   for (const article of articles) {
-    if (article.openai_should_post && article.openai_score >= 6) {
+    const shouldPost = typeof article.openai_should_post === 'boolean' ? article.openai_should_post : 
+                      (typeof article.openai_should_post === 'object' && article.openai_should_post?.should_post);
+    const score = typeof article.openai_score === 'number' ? article.openai_score : 
+                 (typeof article.openai_score === 'object' && article.openai_score?.score);
+    
+    if (shouldPost && score >= 6) {
       try {
         const success = await telegramBot.sendPost(article);
         if (success) {
