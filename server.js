@@ -2,6 +2,15 @@
 
 require('dotenv').config();
 require('./polyfills'); // Загружаем полифиллы
+
+// Запускаем диагностику
+console.log('🔍 Запускаем диагностику системы...');
+require('./test');
+
+// Запускаем тестовую версию CLI
+console.log('\n🧪 Запускаем тестовую версию CLI...');
+require('./test_cli');
+
 const express = require('express');
 const cron = require('node-cron');
 const { exec } = require('child_process');
