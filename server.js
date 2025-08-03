@@ -39,6 +39,10 @@ require('./simple_openai_test');
 console.log('\n🔍 Запускаем диагностику парсинга...');
 require('./debug_parsing');
 
+// Запускаем тест контента
+console.log('\n🧪 Запускаем тест контента...');
+require('./test_content');
+
 const express = require('express');
 const cron = require('node-cron');
 const { exec } = require('child_process');
