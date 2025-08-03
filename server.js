@@ -15,6 +15,14 @@ require('./test_cli');
 console.log('\n🔧 Запускаем тест сервисов...');
 require('./test_services');
 
+// Запускаем тест OpenAI анализа
+console.log('\n🤖 Запускаем тест OpenAI анализа...');
+require('./test_openai_analysis');
+
+// Запускаем тест Telegram постинга
+console.log('\n📱 Запускаем тест Telegram постинга...');
+require('./test_telegram_posting');
+
 const express = require('express');
 const cron = require('node-cron');
 const { exec } = require('child_process');
